@@ -1,0 +1,15 @@
+[Unit]
+Description=udp2raw service
+ConditionFileIsExecutable=/usr/local/bin/udp2raw_amd64
+After=network.target
+[Service]
+Type=simple
+User=root
+Group=root
+#LimitNOFILE=32768
+PIDFile=/run/udp2raw.pid
+AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN
+ExecStart=/usr/local/bin/udp2raw_amd64 -c -l0.0.0.0:443 -r10.20.30.40:80 -k "secretKey" --raw-mode icmp --cipher-mode xor --auth-mode simple -a
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
